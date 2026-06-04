@@ -1,0 +1,50 @@
+{
+  "name": "@shapeshift-labs/frontier-lang-checker",
+  "version": "0.1.0",
+  "description": "Checker and diagnostics for Frontier Lang semantic source documents.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "npm run build && node test/smoke.mjs",
+    "prepare": "npm run build",
+    "prepack": "npm test"
+  },
+  "keywords": [
+    "frontier",
+    "semantic-merge",
+    "patch",
+    "replay",
+    "compiler"
+  ],
+  "author": "ShapeShift Labs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-checker/issues"
+  },
+  "homepage": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-checker#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@shapeshift-labs/frontier-lang-kernel": "^0.1.0"
+  }
+}
