@@ -7,9 +7,17 @@ export function checkDocument(document, options = {}) {
   const declaredTypes = new Set([...builtins]);
   const lattices = new Set();
   const effects = new Set(Object.values(document.nodes).filter((node) => node.kind === 'effect').map((node) => node.capability));
+  const declaredCapabilities = new Set();
+  const nodeIds = new Set(Object.keys(document.nodes));
   const regions = new Set();
   for (const node of Object.values(document.nodes)) {
     if (node.kind === 'entity' || node.kind === 'type' || node.kind === 'lattice') declaredTypes.add(node.name);
+    if (node.kind === 'capability') {
+      declaredCapabilities.add(node.id);
+      declaredCapabilities.add(node.name);
+      declaredCapabilities.add(node.capability);
+      effects.add(node.capability);
+    }
     if (node.kind === 'lattice') {
       lattices.add(node.id);
       lattices.add(node.name);
@@ -47,10 +55,42 @@ export function checkDocument(document, options = {}) {
     if (node.kind === 'extern') {
       checkTypeExpression(diagnostics, node.signature?.input, declaredTypes, `Extern ${node.name} input`, node.id);
       checkTypeExpression(diagnostics, node.signature?.returns, declaredTypes, `Extern ${node.name} returns`, node.id);
+      if (node.capability && declaredCapabilities.size > 0 && !declaredCapabilities.has(node.capability)) diagnostics.push(diag(options.strictCapabilities ? 'error' : 'warning', 'capability.undeclared', `Extern ${node.name} references undeclared capability ${node.capability}`, node.id));
+    }
+    if (node.kind === 'effect') {
+      checkTypeExpression(diagnostics, node.input, declaredTypes, `Effect ${node.name} input`, node.id);
+      checkTypeExpression(diagnostics, node.returns, declaredTypes, `Effect ${node.name} returns`, node.id);
+      if (options.strictCapabilities && declaredCapabilities.size > 0 && !declaredCapabilities.has(node.capability)) diagnostics.push(diag('error', 'capability.undeclared', `Effect ${node.name} references undeclared capability ${node.capability}`, node.id));
+    }
+    if (node.kind === 'capability') {
+      checkTypeExpression(diagnostics, node.input, declaredTypes, `Capability ${node.name} input`, node.id);
+      checkTypeExpression(diagnostics, node.returns, declaredTypes, `Capability ${node.name} returns`, node.id);
+      if (!node.capability) diagnostics.push(diag('error', 'capability.missing', `Capability ${node.name} is missing capability`, node.id));
+      const adapterKeys = new Set();
+      for (const adapter of node.adapters ?? []) {
+        if (!adapter.target?.language) diagnostics.push(diag('error', 'capability.adapterTargetMissing', `Capability ${node.name} has adapter without target language`, node.id));
+        if (!adapter.symbol) diagnostics.push(diag('error', 'capability.adapterSymbolMissing', `Capability ${node.name} has adapter without symbol`, node.id));
+        const adapterKey = `${adapter.target?.language ?? ''}:${adapter.target?.platform ?? ''}:${adapter.symbol ?? ''}`;
+        if (adapterKeys.has(adapterKey)) diagnostics.push(diag('error', 'capability.adapterDuplicate', `Capability ${node.name} has duplicate adapter ${adapterKey}`, node.id));
+        adapterKeys.add(adapterKey);
+      }
+      for (const unsupported of node.unsupportedTargets ?? []) {
+        if (!unsupported.target?.language) diagnostics.push(diag('error', 'capability.unsupportedTargetMissing', `Capability ${node.name} has unsupported target without language`, node.id));
+        if (!unsupported.reason) diagnostics.push(diag('warning', 'capability.unsupportedReasonMissing', `Capability ${node.name} has unsupported target without reason`, node.id));
+      }
     }
     if (node.kind === 'lattice') {
       checkTypeExpression(diagnostics, node.carrier, declaredTypes, `Lattice ${node.name}`, node.id);
       for (const law of node.laws ?? []) checkMergeLaw(diagnostics, law, node.id);
+    }
+    if (node.kind === 'nativeSource') {
+      if (!node.language) diagnostics.push(diag('error', 'native.languageMissing', `Native source ${node.name} is missing language`, node.id));
+      for (const mappedId of node.frontierNodeIds ?? []) {
+        if (!nodeIds.has(mappedId)) diagnostics.push(diag('error', 'native.mappingMissing', `Native source ${node.name} maps to missing semantic node ${mappedId}`, node.id));
+      }
+      for (const loss of node.losses ?? []) {
+        if (loss.severity === 'error') diagnostics.push(diag('error', 'native.loss', `Native source ${node.name} has import loss ${loss.id}: ${loss.message}`, node.id));
+      }
     }
   }
   for (const node of Object.values(document.nodes)) {
