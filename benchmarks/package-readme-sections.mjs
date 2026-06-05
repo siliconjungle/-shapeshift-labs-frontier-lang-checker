@@ -322,10 +322,50 @@ if (!delegated) {
   {
     "id": "frontier-lang-compiler",
     "name": "@shapeshift-labs/frontier-lang-compiler",
-    "role": "Compiler facade for Frontier Lang source documents, including parse, check, hash, diagnostics, and projection to TypeScript, JavaScript, Rust, Python, and C.",
+    "role": "Compiler facade for Frontier Lang source documents, including parse, check, hash, diagnostics, projection to TypeScript, JavaScript, Rust, Python, and C, and native source-import adapters for semantic merge evidence.",
     "npmUrl": "https://www.npmjs.com/package/@shapeshift-labs/frontier-lang-compiler",
     "repoName": "siliconjungle/-shapeshift-labs-frontier-lang-compiler",
     "repoUrl": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-compiler"
+  },
+  {
+    "id": "frontier-lang-swift",
+    "name": "@shapeshift-labs/frontier-lang-swift",
+    "role": "Swift source-language importer package for Frontier Lang semantic documents, including package-level metadata, SwiftSyntax adapter helpers, native import results, and semantic sidecar generation for SwiftSyntax/SwiftParser-shaped syntax trees.",
+    "npmUrl": "https://www.npmjs.com/package/@shapeshift-labs/frontier-lang-swift",
+    "repoName": "siliconjungle/-shapeshift-labs-frontier-lang-swift",
+    "repoUrl": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-swift"
+  },
+  {
+    "id": "frontier-lang-java",
+    "name": "@shapeshift-labs/frontier-lang-java",
+    "role": "Java source-language importer package for Frontier Lang semantic documents, including package-level metadata, Java AST adapter helpers, native import results, and semantic sidecar generation for javac/JDT/JavaParser-shaped ASTs.",
+    "npmUrl": "https://www.npmjs.com/package/@shapeshift-labs/frontier-lang-java",
+    "repoName": "siliconjungle/-shapeshift-labs-frontier-lang-java",
+    "repoUrl": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-java"
+  },
+  {
+    "id": "frontier-lang-go",
+    "name": "@shapeshift-labs/frontier-lang-go",
+    "role": "Go source-language importer package for Frontier Lang semantic documents, including package-level metadata, Go AST adapter helpers, native import results, and semantic sidecar generation for go/ast File or Package trees.",
+    "npmUrl": "https://www.npmjs.com/package/@shapeshift-labs/frontier-lang-go",
+    "repoName": "siliconjungle/-shapeshift-labs-frontier-lang-go",
+    "repoUrl": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-go"
+  },
+  {
+    "id": "frontier-lang-csharp",
+    "name": "@shapeshift-labs/frontier-lang-csharp",
+    "role": "C# Roslyn source-language importer package for Frontier Lang semantic documents, including package-level metadata, Roslyn adapter helpers, native import results, and semantic sidecar generation for SyntaxTree/SyntaxNode-shaped ASTs.",
+    "npmUrl": "https://www.npmjs.com/package/@shapeshift-labs/frontier-lang-csharp",
+    "repoName": "siliconjungle/-shapeshift-labs-frontier-lang-csharp",
+    "repoUrl": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-csharp"
+  },
+  {
+    "id": "frontier-lang-clang",
+    "name": "@shapeshift-labs/frontier-lang-clang",
+    "role": "Clang AST source-language importer package for Frontier Lang semantic documents, including package-level metadata, Clang AST JSON adapter helpers, native import results, and semantic sidecar generation for C/C++ translation units.",
+    "npmUrl": "https://www.npmjs.com/package/@shapeshift-labs/frontier-lang-clang",
+    "repoName": "siliconjungle/-shapeshift-labs-frontier-lang-clang",
+    "repoUrl": "https://github.com/siliconjungle/-shapeshift-labs-frontier-lang-clang"
   },
   {
     "id": "frontier-lang-cli",
