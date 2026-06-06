@@ -1,6 +1,7 @@
 node_modules/
 dist/
 agent-runs/
+agent-worktrees/
 *.tgz
 .env
 .env.*
