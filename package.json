@@ -1,6 +1,6 @@
 {
   "name": "@shapeshift-labs/frontier-lang-checker",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Checker and diagnostics for Frontier Lang semantic source documents.",
   "type": "module",
   "main": "./dist/index.js",
@@ -54,7 +54,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@shapeshift-labs/frontier-lang-kernel": "0.3.12"
+    "@shapeshift-labs/frontier-lang-kernel": "0.3.13"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
